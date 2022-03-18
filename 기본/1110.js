@@ -1,29 +1,41 @@
 const fs = require('fs');
 const filePath = process.platform === 'linux' ? '/dev/stdin' : './input.txt';
-let input = fs.readFileSync(filePath).toString().split('\n');
-solution(+input[0]);
-function solution(N) {
-  let makeNum = N;
-  let ans = 0;
-  while (makeNum !== N || ans === 0) {
-    let ten;
-    let one;
-    if (makeNum >= 10) {
-      ten = +String(makeNum)[0];
-      one = +String(makeNum)[1];
-    } else {
-      ten = 0;
-      one = +String(makeNum)[0];
+let input = fs.readFileSync(filePath).toString();
+input = input.split('\n');
+// const [N, X] = input[0].split(' ').map((item) => +item);
+// const arr = input[1].split(' ').map((item) => +item);
+
+solution(input[0]);
+
+function solution(n) {
+  //n은 string
+  let re = n;
+  let cnt = 0;
+  let cal = '';
+  while (true) {
+    if (n === '0') {
+      console.log(1);
+      break;
     }
-    makeNum = ten + one;
-    let makeNumOne;
-    if (makeNum >= 10) {
-      makeNumOne = +String(makeNum)[1];
-    } else {
-      makeNumOne = +String(makeNum)[0];
+
+    if (re.length === 1) {
+      re = '0' + re;
     }
-    makeNum = +(String(one) + String(makeNumOne));
-    ans++;
+
+    cal = '';
+    cal = +re[0] + +re[1];
+    cal = String(cal);
+
+    if (cal.length === 1) {
+      re = re[1] + cal;
+    } else {
+      re = re[1] + cal[1];
+    }
+
+    cnt++;
+    if (+re == +n) {
+      console.log(cnt);
+      break;
+    }
   }
-  console.log(ans);
 }
